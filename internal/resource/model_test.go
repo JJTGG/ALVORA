@@ -9,8 +9,12 @@ import (
 
 func validResource() Resource {
 	return Resource{
-		ID: "resource-1", Type: "application", OrganizationID: "org-1", ProjectID: "project-1",
-		Generation: 1, State: control.StateRequested,
+		ID:             "resource-1",
+		Type:           "application",
+		OrganizationID: "org-1",
+		ProjectID:      "project-1",
+		Generation:     1,
+		State:          control.StateRequested,
 	}
 }
 
