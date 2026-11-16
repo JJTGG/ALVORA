@@ -15,11 +15,11 @@ var (
 
 // Spec describes the minimum input needed to run one local application release.
 type Spec struct {
-	Application string
-	SourceDir   string
+	Application  string
+	SourceDir    string
 	StartCommand string
-	Args        []string
-	Port        int
+	Args         []string
+	Port         int
 }
 
 func (s Spec) Validate() error {
@@ -29,7 +29,7 @@ func (s Spec) Validate() error {
 	if strings.TrimSpace(s.SourceDir) == "" {
 		return ErrInvalidSource
 	}
-	if filepath.IsAbs(s.SourceDir) == false {
+	if !filepath.IsAbs(s.SourceDir) {
 		return errors.New("source directory must be absolute")
 	}
 	if strings.TrimSpace(s.StartCommand) == "" {
