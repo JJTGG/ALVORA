@@ -2,12 +2,9 @@ package deploy
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"os/exec"
 )
-
-var ErrNilRunner = errors.New("runner is required")
 
 // Process is the small process-control seam used by Runner.
 type Process interface {
@@ -44,11 +41,16 @@ func StartProcess(ctx context.Context, spec Spec) (Process, error) {
 	return &process{cmd: cmd}, nil
 }
 
-// Start validates the specification and starts the configured local process.
+// StartProcess validates the specification and starts the configured local process.
 func (r Runner) StartProcess(ctx context.Context, spec Spec) (Process, error) {
+	if err := spec.Validate(); err != nil {
+		return nil, fmt.Errorf("validate deployment: %w", err)
+	}
 	factory := r.Start
 	if factory == nil {
 		factory = StartProcess
 	}
 	return factory(ctx, spec)
 }
+
+var _ = context.Background
