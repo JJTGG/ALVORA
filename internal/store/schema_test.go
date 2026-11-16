@@ -1,9 +1,6 @@
 package store
 
-import (
-	"database/sql"
-	"testing"
-)
+import "testing"
 
 func TestApplySchemaRejectsNilDatabase(t *testing.T) {
 	if err := ApplySchema(nil); err != ErrNilDB {
@@ -31,5 +28,3 @@ func stringIndex(value, fragment string) int {
 	}
 	return -1
 }
-
-var _ *sql.DB
