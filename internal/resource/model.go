@@ -8,12 +8,10 @@ import (
 	"github.com/JJTGG/ALVORA/internal/control"
 )
 
-var (
-	ErrInvalidResourceID       = errors.New("resource id is required")
-	ErrInvalidResourceType     = errors.New("resource type is required")
-	ErrInvalidScope            = errors.New("resource scope is required")
-	ErrInvalidStateTransition  = errors.New("invalid resource state transition")
-)
+var ErrInvalidResourceID = errors.New("resource id is required")
+var ErrInvalidResourceType = errors.New("resource type is required")
+var ErrInvalidScope = errors.New("resource scope is required")
+var ErrInvalidStateTransition = errors.New("invalid resource state transition")
 
 // Resource is the durable desired/observed state boundary for a managed object.
 type Resource struct {
