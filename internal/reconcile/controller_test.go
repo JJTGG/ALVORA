@@ -61,7 +61,14 @@ func TestReconcilerRecordsFailure(t *testing.T) {
 }
 
 func testResource() resource.Resource {
-	return resource.Resource{ID: "resource-1", Type: "application", OrganizationID: "org-1", ProjectID: "project-1", Generation: 1, State: control.StateRequested}
+	return resource.Resource{
+		ID:             "resource-1",
+		Type:           "application",
+		OrganizationID: "org-1",
+		ProjectID:      "project-1",
+		Generation:     1,
+		State:          control.StateRequested,
+	}
 }
 
 type fakeAction struct {
@@ -73,9 +80,23 @@ func (a *fakeAction) Apply(context.Context, resource.Resource) ([]byte, error) {
 	return a.observed, a.err
 }
 
-type memoryRepository struct{ value resource.Resource }
+type memoryRepository struct {
+	value resource.Resource
+}
 
-func (m *memoryRepository) Create(context.Context, resource.Resource) error { return nil }
-func (m *memoryRepository) Get(context.Context, string) (resource.Resource, error) { return m.value, nil }
-func (m *memoryRepository) Update(_ context.Context, value resource.Resource, _ int64) error { m.value = value; return nil }
-func (m *memoryRepository) ListByScope(context.Context, string, string, string) ([]resource.Resource, error) { return []resource.Resource{m.value}, nil }
+func (m *memoryRepository) Create(context.Context, resource.Resource) error {
+	return nil
+}
+
+func (m *memoryRepository) Get(context.Context, string) (resource.Resource, error) {
+	return m.value, nil
+}
+
+func (m *memoryRepository) Update(_ context.Context, value resource.Resource, _ int64) error {
+	m.value = value
+	return nil
+}
+
+func (m *memoryRepository) ListByScope(context.Context, string, string, string) ([]resource.Resource, error) {
+	return []resource.Resource{m.value}, nil
+}
