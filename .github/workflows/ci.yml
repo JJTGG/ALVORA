@@ -1,3 +1,4 @@
+
 name: CI
 
 on:
@@ -16,29 +17,29 @@ jobs:
     name: Go checks
     runs-on: ubuntu-latest
 
-steps:
+    steps:
       - name: Check out source
         uses: actions/checkout@v4
 
-- name: Set up Go
+      - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
           cache: true
 
-- name: Check formatting
+      - name: Check formatting
         shell: bash
         run: |
           files=$(gofmt -l .)
 
-if [[ -n "$files" ]]; then
+          if [[ -n "$files" ]]; then
             echo "The following files are not formatted:"
             echo "$files"
             exit 1
           fi
 
-- name: Run vet
+      - name: Run vet
         run: go vet ./...
 
-- name: Run tests
+      - name: Run tests
         run: go test ./...
