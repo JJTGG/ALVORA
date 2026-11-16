@@ -9,26 +9,26 @@ import (
 )
 
 var (
-	ErrInvalidResourceID = errors.New("resource id is required")
-	ErrInvalidResourceType = errors.New("resource type is required")
-	ErrInvalidScope = errors.New("resource scope is required")
-	ErrInvalidStateTransition = errors.New("invalid resource state transition")
+	ErrInvalidResourceID       = errors.New("resource id is required")
+	ErrInvalidResourceType     = errors.New("resource type is required")
+	ErrInvalidScope            = errors.New("resource scope is required")
+	ErrInvalidStateTransition  = errors.New("invalid resource state transition")
 )
 
 // Resource is the durable desired/observed state boundary for a managed object.
 type Resource struct {
-	ID              string
-	Type            string
-	OrganizationID  string
-	ProjectID       string
-	EnvironmentID   string
-	Generation      int64
-	State           control.State
-	DesiredSpec     []byte
-	ObservedStatus  []byte
-	ObservedError   string
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
+	ID             string
+	Type           string
+	OrganizationID string
+	ProjectID      string
+	EnvironmentID  string
+	Generation     int64
+	State          control.State
+	DesiredSpec    []byte
+	ObservedStatus []byte
+	ObservedError  string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 }
 
 // Validate checks the identity and lifecycle invariants required by storage.
