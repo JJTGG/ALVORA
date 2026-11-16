@@ -52,5 +52,3 @@ func (r Runner) StartProcess(ctx context.Context, spec Spec) (Process, error) {
 	}
 	return factory(ctx, spec)
 }
-
-var _ = context.Background
