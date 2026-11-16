@@ -19,13 +19,21 @@ type ProcessAction struct {
 	live   map[string]Process
 }
 
-// Apply starts or reuses the process for a resource and returns observed status JSON.
+// Apply starts or reuses the process described by the resource desired spec.
 func (a *ProcessAction) Apply(ctx context.Context, value resource.Resource) ([]byte, error) {
 	if a == nil {
 		return nil, ErrNilActionRunner
 	}
 	if err := value.Validate(); err != nil {
 		return nil, fmt.Errorf("validate resource: %w", err)
+	}
+
+	var spec Spec
+	if err := json.Unmarshal(value.DesiredSpec, &spec); err != nil {
+		return nil, fmt.Errorf("decode desired deployment: %w", err)
+	}
+	if err := spec.Validate(); err != nil {
+		return nil, fmt.Errorf("validate desired deployment: %w", err)
 	}
 
 	a.mu.Lock()
@@ -37,12 +45,7 @@ func (a *ProcessAction) Apply(ctx context.Context, value resource.Resource) ([]b
 		return statusJSON(value.ID, "running")
 	}
 
-	process, err := a.Runner.StartProcess(ctx, Spec{
-		Application:  value.ID,
-		SourceDir:    string(value.DesiredSpec),
-		StartCommand: "./app",
-		Port:         8080,
-	})
+	process, err := a.Runner.StartProcess(ctx, spec)
 	if err != nil {
 		return nil, fmt.Errorf("start resource process: %w", err)
 	}
