@@ -1,10 +1,10 @@
 package api
 
 import (
-	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/JJTGG/ALVORA/internal/store"
@@ -52,5 +52,3 @@ func TestResourceAPIReportsNotFound(t *testing.T) {
 		t.Fatalf("status = %d, want %d", response.Code, http.StatusNotFound)
 	}
 }
-
-var _ = context.Background
